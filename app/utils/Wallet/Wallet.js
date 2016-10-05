@@ -76,16 +76,6 @@ export class Wallet {
                 "address": "0xc66ea802717bfb9833400264dd12c2bceaa34a6d",
                 "symbol": "MKR",
                 "decimal": 18
-              },
-              {
-                "address": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
-                "symbol": "🦄 Unicorn",
-                "decimal": 0
-              },
-              {
-                "address": "0x74c1e4b8cae59269ec1d85d3d4f324396048f4ac",
-                "symbol": "🍺 BeerCoin",
-                "decimal": 0
               }];
 	}
 }
