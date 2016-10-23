@@ -1,11 +1,38 @@
 import { ETHTransaction, ERC20Data } from './ETHTransaction';
 import { ETHWallet } from './Wallet';
 import { Token } from './Token';
+import { Investment } from './Investment';
 
 export class InvestmentEngine {
 	constructor(wallet) {    
 	    this.wallet = wallet;
 	}
+
+	static getInvestments() {
+		let all = InvestmentEngine.savedInvestments();
+		var _investments = [];
+		for(let idx in all) {
+			let dic = all[idx];
+			_investments.push(Investment.fromDic(dic));
+		}
+		return _investments;
+	}
+
+	static addInvestment(investment) {
+		let all = InvestmentEngine.savedInvestments();
+		all.push(investment.serialize());
+		InvestmentEngine.setInvestments(all);
+	}
+
+	static savedInvestments() {
+		return localStorage.getItem("localInvestments") != null ? JSON.parse(localStorage.getItem("localInvestments")) : [];
+	}
+
+	static setInvestments(investments) {
+		return localStorage.setItem("localInvestments",JSON.stringify(investments));
+	}
+
+	//
 
 	fetchInvestmentsForAccount(account, callback) {
 		let parentObj = this;

@@ -40,6 +40,22 @@ export class Token {
 		};
 	}
 
+	static fromDic(dic) {
+		return new Token(dic.address,
+							dic.userAddress,
+							dic.symbol,
+							dic.decimal);
+	}
+
+	serialize() {
+		return {
+			"address": this.contractAddress,
+			"symbol": this.symbol,
+			"decimal": this.decimal,
+			"userAddress": this.userAddress
+		};
+	}
+
 	// uitl
 	prettyName() {
 		return this.symbol;
