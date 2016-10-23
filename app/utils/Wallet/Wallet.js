@@ -1,4 +1,5 @@
-import { Token } from './Token'
+import { Token } from './Token';
+import { ETHTransaction } from './ETHTransaction';
 
 export class ETHWallet {
 	static walletFromDisk() {
@@ -7,7 +8,7 @@ export class ETHWallet {
 
 	constructor(props) {    
 	    this.walletAddresses = [
-	    	"d7e10d75cf87abc5a2f34a83ccf27cd54108cbc3"
+	    	"0xd7e10d75cf87abc5a2f34a83ccf27cd54108cbc3"
 	    ];
 	}
 
@@ -46,6 +47,18 @@ export class ETHWallet {
 					decimal: decimal
 				});
 		localStorage.setItem("localTokens",JSON.stringify(tokens));
+	}
+
+	findTokenICOInvestment(tx) {
+		let allTokens = this.getTokens();
+		for(let idx in allTokens) {
+			let tokenAddress = allTokens[idx].contractAddress.replace('0x','');
+			let txTo = tx.to.replace('0x','');
+			if(tokenAddress === txTo) {
+				return allTokens[idx];
+			}
+		}
+		return null;
 	}
 
 	static allTokens() {

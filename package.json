@@ -229,6 +229,7 @@
     "redux-immutable": "3.0.8",
     "redux-saga": "0.11.1",
     "reselect": "2.5.3",
+    "rsvp": "^3.3.3",
     "sanitize.css": "4.1.0",
     "warning": "3.0.0",
     "whatwg-fetch": "1.0.0"

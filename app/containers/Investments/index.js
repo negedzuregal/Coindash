@@ -9,8 +9,25 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import styles from './styles.css';
+import { InvestmentEngine } from '../../utils/Wallet/InvestmentEngine';
+import Wallet from '../../utils/Wallet/Wallet';
 
 export class Investments extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {    
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  componentDidMount() {    
+    let engine = new InvestmentEngine(Wallet);
+    engine.fetchInvestmentsForAccount(Wallet.walletAddresses[0],
+      function(investments, error) {
+
+      });
+  }
+
   render() {
     return (
       <div className={styles.investments}>
@@ -19,7 +36,6 @@ export class Investments extends React.Component { // eslint-disable-line react/
     );
   }
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {

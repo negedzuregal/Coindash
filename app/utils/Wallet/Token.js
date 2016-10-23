@@ -10,6 +10,7 @@ export class Token {
 		this.decimal = decimal;
 		this.balance = 0;
 		this.balanceHex = "0x70a08231";
+		this.transferHex = "0xa9059cbb";
 
 		this.unitMap = {
 			'wei': '1',
