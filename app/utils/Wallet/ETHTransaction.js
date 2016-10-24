@@ -11,10 +11,12 @@ export class ERC20Data {
 		};
 	}
 
-	constructor(type, account, value) {
+	constructor(type, account, value, tx, timestamp) {
 		this.type = type;
 		this.account = account;
 		this.value = value;
+		this.timestamp = timestamp;
+		this.tx = tx;
 	}
 }
 
@@ -29,7 +31,8 @@ export class ETHTransaction {
 		gas,
 		input,
 		contractAddress,
-		confirmations) {
+		confirmations,
+		nonce) {
 
 		this.blockNumber = blockNumber;
 		this.timeStamp = timeStamp;
@@ -42,6 +45,7 @@ export class ETHTransaction {
 		this.input = input;
 		this.contractAddress = contractAddress;
 		this.confirmations = confirmations;
+		this.nonce = nonce;
 
 		// if this tx is for a token contract this var will hold that token
 		this.tokenTransaction = null;
@@ -63,7 +67,9 @@ export class ETHTransaction {
 		if (this.input === "0x") {
 			return new ERC20Data(ERC20Data.OperationType().Buyin,
 				this.from,
-				this.weiBalance());
+				this.weiBalance(),
+				this,
+				this.timeStamp);
 		}
 
 		// transfer tokens
@@ -76,7 +82,9 @@ export class ETHTransaction {
 
 			return new ERC20Data(ERC20Data.OperationType().Transfer,
 				this.input.substring(this.tokenTransaction.transferHex.length, this.tokenTransaction.transferHex.length + 64),
-				_balance.toString(10));
+				_balance.toString(10),
+				this,
+				this.timeStamp);
 		}
 
 		return null;
@@ -94,7 +102,8 @@ export class ETHTransaction {
 				data.gas,
 				data.input,
 				data.contractAddress,
-				data.confirmations
+				data.confirmations,
+				data.nonce
 			);
 	}
 }

@@ -22,9 +22,14 @@ export class Investments extends React.Component { // eslint-disable-line react/
 
   componentDidMount() {    
     let engine = new InvestmentEngine(Wallet);
-    engine.fetchInvestmentsForAccount(Wallet.walletAddresses[0],
+    let account = Wallet.walletAddresses[0];
+    engine.fetchInvestmentsForAccount(account,
       function(investments, error) {
-
+        console.log(investments);
+        let all = engine.mergeInvestmentsToSaved(account,
+                                        investments
+                                      )
+        console.log(all);
       });
   }
 

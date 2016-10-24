@@ -47,6 +47,15 @@ export class Token {
 							dic.decimal);
 	}
 
+	static ETH() {
+		return new Token(
+				"",
+				"",
+				"ETH",
+				0
+			);
+	}
+
 	serialize() {
 		return {
 			"address": this.contractAddress,

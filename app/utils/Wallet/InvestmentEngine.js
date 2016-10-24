@@ -8,8 +8,8 @@ export class InvestmentEngine {
 	    this.wallet = wallet;
 	}
 
-	static getInvestments() {
-		let all = InvestmentEngine.savedInvestments();
+	getInvestments(account) {
+		let all = this.savedInvestments(account);
 		var _investments = [];
 		for(let idx in all) {
 			let dic = all[idx];
@@ -18,45 +18,67 @@ export class InvestmentEngine {
 		return _investments;
 	}
 
-	static addInvestment(investment) {
-		let all = InvestmentEngine.savedInvestments();
+	addInvestment(account, investment) {
+		let all = this.savedInvestments(account);
+
+		// check no duplicate ids
+		for (let idx in all) {
+			let d = all[idx];
+			if (d.id === investment.id) {
+				return;
+			}
+		}
+
 		all.push(investment.serialize());
-		InvestmentEngine.setInvestments(all);
+		this.setInvestments(account, all);
 	}
 
-	static savedInvestments() {
-		return localStorage.getItem("localInvestments") != null ? JSON.parse(localStorage.getItem("localInvestments")) : [];
+	mergeInvestmentsToSaved(account, investments) {
+		for (let idx in investments) {
+			this.addInvestment(account, investments[idx]);
+		}
+
+		return this.getInvestments(account);
 	}
 
-	static setInvestments(investments) {
-		return localStorage.setItem("localInvestments",JSON.stringify(investments));
+	savedInvestments(account) {
+		let k = "localInvestments_" + account;
+		return localStorage.getItem(k) != null ? JSON.parse(localStorage.getItem(k)) : [];
+	}
+
+	setInvestments(account, investments) {
+		let k = "localInvestments_" + account;
+		return localStorage.setItem(k, JSON.stringify(investments));
 	}
 
 	//
-
 	fetchInvestmentsForAccount(account, callback) {
 		let parentObj = this;
 		this.fetchTxsForAccount(account, function(txs, error) {
 			if(error != null) {
-
+				callback(null, error);
 			}
 			else {
+				let _ret = [];
 				for(let idx in txs) {
 					let tx = txs[idx];
 					tx.tokenTransaction = parentObj.wallet.findTokenICOInvestment(tx);
 					let erc20Data = tx.getERC20Data();
 					if (erc20Data != null) {
+						_ret.push(Investment.fromETC20(erc20Data));
 						// buyin
 						if (erc20Data.type === ERC20Data.OperationType().Buyin) {
-							console.log("Bought " + tx.tokenTransaction.prettyName() + " for " + erc20Data.value + " ETH");
+							console.log(erc20Data.timestamp + ") Bought " + tx.tokenTransaction.prettyName() + " for " + erc20Data.value + " ETH");
 						}
 
 						// transfer
 						else if (erc20Data.type === ERC20Data.OperationType().Transfer) {
-							console.log("Transfered " + erc20Data.value + " from " + tx.tokenTransaction.prettyName());
+							console.log(erc20Data.timestamp + ") Transfered " + erc20Data.value + " from " + tx.tokenTransaction.prettyName());
 						}
 					}
 				}
+
+				callback(_ret, null);
 			}
 		});
 	}
