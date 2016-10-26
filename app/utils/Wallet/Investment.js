@@ -33,6 +33,13 @@ export class Investment {
 		};
 	}
 
+	pretty() {
+		if (this.id === Investment.Types().Buy) {
+			return "Buy"
+		}
+		return "Sell"
+	}
+
 	static fromDic(dic) {
 		let ret =  new Investment(
 				dic.type,

@@ -11,6 +11,8 @@ import messages from './messages';
 import styles from './styles.css';
 import { InvestmentEngine } from '../../utils/Wallet/InvestmentEngine';
 import Wallet from '../../utils/Wallet/Wallet';
+import SkyLight from 'react-skylight';
+import InvestmentForm from 'components/InvestmentForm';
 
 export class Investments extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {    
@@ -25,7 +27,6 @@ export class Investments extends React.Component { // eslint-disable-line react/
     let account = Wallet.walletAddresses[0];
     engine.fetchInvestmentsForAccount(account,
       function(investments, error) {
-        console.log(investments);
         let all = engine.mergeInvestmentsToSaved(account,
                                         investments
                                       )
@@ -37,8 +38,20 @@ export class Investments extends React.Component { // eslint-disable-line react/
     return (
       <div className={styles.investments}>
         <FormattedMessage {...messages.header} />
+        <div>
+        <br/><br/>
+          <button onClick={() => this.refs.simpleDialog.show()}>Add investment</button>
+          <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Add investment">
+          <br/><br/>
+            <InvestmentForm onSubmited={this.onSubmitedInvestment.bind(this)} />
+          </SkyLight>
+        </div>
       </div>
     );
+  }
+
+  onSubmitedInvestment(investment) {
+    console.log("onSubmited " + investment);
   }
 }
 
