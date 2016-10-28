@@ -9,10 +9,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import styles from './styles.css';
-import { InvestmentEngine } from '../../utils/Wallet/InvestmentEngine';
+import { TradeEngine } from '../../utils/Wallet/TradeEngine';
 import Wallet from '../../utils/Wallet/Wallet';
 import SkyLight from 'react-skylight';
-import InvestmentForm from 'components/InvestmentForm';
+import TradeForm from 'components/TradeForm';
 
 export class Investments extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {    
@@ -23,15 +23,11 @@ export class Investments extends React.Component { // eslint-disable-line react/
   }
 
   componentDidMount() {    
-    let engine = new InvestmentEngine(Wallet);
+    let engine = new TradeEngine(Wallet);
     let account = Wallet.walletAddresses[0];
-    engine.fetchInvestmentsForAccount(account,
-      function(investments, error) {
-        let all = engine.mergeInvestmentsToSaved(account,
-                                        investments
-                                      )
-        console.log(all);
-      });
+    engine.fetchTradesForAccount(account, function(trades, error) {
+                                  // console.log(all);
+                                });
   }
 
   render() {
@@ -43,14 +39,14 @@ export class Investments extends React.Component { // eslint-disable-line react/
           <button onClick={() => this.refs.simpleDialog.show()}>Add investment</button>
           <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Add investment">
           <br/><br/>
-            <InvestmentForm onSubmited={this.onSubmitedInvestment.bind(this)} />
+            <TradeForm onSubmited={this.onSubmitedTrade.bind(this)} />
           </SkyLight>
         </div>
       </div>
     );
   }
 
-  onSubmitedInvestment(investment) {
+  onSubmitedTrade(investment) {
     console.log("onSubmited " + investment);
   }
 }

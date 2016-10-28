@@ -1,6 +1,6 @@
 import { Token } from './Token';
 
-export class Investment {
+export class Trade {
 	static Types() {
 		return {
 			"Buy": 1,
@@ -19,6 +19,7 @@ export class Investment {
 		this.rhsToken = rhsToken;
 		this.rhsValue = rhsValue;
 		this.timestamp = timestamp;
+		this.fee = 0;
 	}
 
 	serialize() {
@@ -34,14 +35,14 @@ export class Investment {
 	}
 
 	pretty() {
-		if (this.id === Investment.Types().Buy) {
+		if (this.id === Trade.Types().Buy) {
 			return "Buy"
 		}
 		return "Sell"
 	}
 
 	static fromDic(dic) {
-		let ret =  new Investment(
+		let ret =  new Trade(
 				dic.type,
 				Token.fromDic(dic.lhsToken),
 				dic.lhsValue,
@@ -55,8 +56,8 @@ export class Investment {
 
 	static fromETC20(erc20Data) {
 		// currently we only support buyin of ICO token
-		 	let ret = new Investment(
-				Investment.Types().Buy,
+		 	let ret = new Trade(
+				Trade.Types().Buy,
 				Token.ETH(),
 				erc20Data.value,
 				erc20Data.tx.tokenTransaction,

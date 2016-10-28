@@ -11,14 +11,14 @@ import messages from './messages';
 import styles from './styles.css';
 import Form from "react-jsonschema-form";
 
-class InvestmentForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class TradeForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className={styles.investmentForm}>
+      <div className={styles.tradeForm}>
         <FormattedMessage {...messages.header} />
       </div>
     );
   }
 }
 
-export default InvestmentForm;
+export default TradeForm;
