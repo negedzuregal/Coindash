@@ -59,13 +59,18 @@ export class TradeEngine {
 
 		// poloniex
 		this.fetchPoloniexTrades(function(trades, error) {
-
+			console.log("Poloniex:");
+			for(let idx in trades) {
+				console.log(trades[idx].pretty());
+			}
 		});
 
 
 		this.fetchICOBuyinTrades(account, function(trades, error) {
 			console.log("ICO buyin:");
-			console.log(trades);
+			for(let idx in trades) {
+				console.log(trades[idx].pretty());
+			}
 		});
 	}
 
@@ -73,9 +78,7 @@ export class TradeEngine {
 		let secret = "85d32cf0f1a546ecdb79964f88143c01b6c3e1f8b61f9df0a5c37e71cf541130dbcda31e6916fb5d7a69130b3a8d59425b139aeebec84c63b42e3e91ce68efaf";
 		let api_key = "MC2U9AG0-APDRGLJG-NZH42BCA-J71S4KCH";
 		let poloniex = new PoloniexAPI(secret, api_key)
-		poloniex.fetchAllTradeHistory(function(data, error) {
-
-		});
+		poloniex.fetchAllTradeHistory(callback);
 	}
 
 	fetchICOBuyinTrades(account, callback) {
@@ -93,7 +96,6 @@ export class TradeEngine {
 					if (erc20Data != null) {
 						// buyin
 						if (erc20Data.type === ERC20Data.OperationType().Buyin) {
-							// console.log(erc20Data.timestamp + ") Bought " + tx.tokenTransaction.prettyName() + " for " + erc20Data.value + " ETH");
 							_ret.push(Trade.fromETC20(erc20Data));
 						}
 

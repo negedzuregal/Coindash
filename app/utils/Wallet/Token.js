@@ -72,7 +72,7 @@ export class Token {
 
 	static BTC() {
 		let t = new Token();
-		t.symbol = "ETC";
+		t.symbol = "BTC";
 		return t;
 	}
 
@@ -85,7 +85,7 @@ export class Token {
 	}
 
 	static ETH() {
-		return new Token(Token.ETHDic());
+		return new Token.fromDic(Token.ETHDic());
 	}
 
 	static DAODic() {
@@ -97,7 +97,7 @@ export class Token {
 	}
 
 	static DAO() {
-		return new Token(Token.DAODic());
+		return new Token.fromDic(Token.DAODic());
 	}
 
 	static DGDDic() {
@@ -109,7 +109,7 @@ export class Token {
 	}
 
 	static DGD() {
-		return new Token(Token.DGDDic());
+		return new Token.fromDic(Token.DGDDic());
 	}
 
 	static MKRDic() {
@@ -121,7 +121,7 @@ export class Token {
 	}
 
 	static MKR() {
-		return new Token(Token.MKRDic());
+		return new Token.fromDic(Token.MKRDic());
 	}
 
 	static UnicornDic() {
@@ -133,7 +133,7 @@ export class Token {
 	}
 
 	static Unicorn() {
-		return new Token(Token.UnicornDic());
+		return new Token.fromDic(Token.UnicornDic());
 	}
 
 	static BeerCoinDic() {
@@ -145,7 +145,7 @@ export class Token {
 	}
 
 	static BeerCoin() {
-		return new Token(Token.BeerCoinDic());
+		return new Token.fromDic(Token.BeerCoinDic());
 	}
 
 	static HKGDic() {
@@ -157,7 +157,7 @@ export class Token {
 	}
 
 	static HKG() {
-		return new Token(Token.HKGDic());
+		return new Token.fromDic(Token.HKGDic());
 	}
 
 	static ICNDic() {
@@ -169,7 +169,7 @@ export class Token {
 	}
 
 	static ICN() {
-		return new Token(Token.ICNDic());
+		return new Token.fromDic(Token.ICNDic());
 	}
 
 	static PLUDic() {
@@ -181,7 +181,7 @@ export class Token {
 	}
 
 	static PLU() {
-		return new Token(Token.PLUDic());
+		return new Token.fromDic(Token.PLUDic());
 	}
 
 	static REPDic() {
@@ -194,7 +194,7 @@ export class Token {
 	}
 
 	static REP() {
-		return new Token(Token.REPDic());
+		return new Token.fromDic(Token.REPDic());
 	}
 
 	static SNGLSDic() {
@@ -206,7 +206,7 @@ export class Token {
 	}
 
 	static SNGLS() {
-		return new Token(Token.SNGLSDic());
+		return new Token.fromDic(Token.SNGLSDic());
 	}
 
 	// helper functions 

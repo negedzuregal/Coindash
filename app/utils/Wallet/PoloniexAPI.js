@@ -54,12 +54,13 @@ export class PoloniexAPI {
 	      			parentObj.parsePoloniexData(data, callback);
 	      		}
 	      		else {
-
+	      			callback(null, error);
 	      		}
 	      	});
 	}
 
 	parsePoloniexData(data, callback) {
+		let _ret = []
 		for(let k in data) {
 			let tokens = this.tokensFromCurrencyPair(k);
 			let lhs = tokens[0];
@@ -68,12 +69,40 @@ export class PoloniexAPI {
 			let trades = data[k];
 			for(let idx in trades) {
 				let trade = trades[idx];
-				if (trade.category === "exchange") {
-					console.log(trade);
-
+				if (trade.category === "exchange") {					
+					let t = this.tradeFromPoloniexDic(lhs, rhs, trade);
+					if (t != null) {
+						_ret.push(t);
+					}
 				}
 			}
 		}
+		callback(_ret, null);
+	}
+
+	tradeFromPoloniexDic(lhsToken, rhsToken, dic) {
+		if (dic.type === "buy") {
+			return new Trade(
+					Trade.Types().Buy,
+					lhsToken,
+					dic.total,
+					rhsToken,
+					dic.amount,
+					new Date(dic.date).getTime()
+				);
+		}
+		else { // sell
+			return new Trade(
+					Trade.Types().Sell,
+					lhsToken,
+					dic.total,
+					rhsToken,
+					dic.amount,
+					new Date(dic.date).getTime()
+				)
+		}
+
+		return null;
 	}
 
 	tokensFromCurrencyPair(currencyPair) {

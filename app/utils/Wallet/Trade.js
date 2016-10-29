@@ -20,6 +20,7 @@ export class Trade {
 		this.rhsValue = rhsValue;
 		this.timestamp = timestamp;
 		this.fee = 0;
+		this.executedOn = "";
 	}
 
 	serialize() {
@@ -35,10 +36,10 @@ export class Trade {
 	}
 
 	pretty() {
-		if (this.id === Trade.Types().Buy) {
-			return "Buy"
+		if (this.type === Trade.Types().Buy) {
+			return "Bought " + this.rhsValue + this.rhsToken.symbol + " for " + this.lhsValue + this.lhsToken.symbol; 
 		}
-		return "Sell"
+		return "Sold " + this.rhsValue + this.rhsToken.symbol + " for " + this.lhsValue + this.lhsToken.symbol;  
 	}
 
 	static fromDic(dic) {
@@ -56,15 +57,15 @@ export class Trade {
 
 	static fromETC20(erc20Data) {
 		// currently we only support buyin of ICO token
-		 	let ret = new Trade(
-				Trade.Types().Buy,
-				Token.ETH(),
-				erc20Data.value,
-				erc20Data.tx.tokenTransaction,
-				"--", // currently we can't know the amount of tokens bought
-				erc20Data.timestamp
-			);
-			ret.id = erc20Data.tx.nonce;
-			return ret;
+	 	let ret = new Trade(
+			Trade.Types().Buy,
+			Token.ETH(),
+			erc20Data.value,
+			erc20Data.tx.tokenTransaction,
+			"", // TODO - how to find out the amount of token purchsed
+			erc20Data.timestamp
+		);
+		ret.id = erc20Data.tx.nonce;
+		return ret;
 	}
 }
