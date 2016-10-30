@@ -10,6 +10,8 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import styles from './styles.css';
 import { TradeEngine } from '../../utils/Wallet/TradeEngine';
+import { Token } from '../../utils/Wallet/Token';
+import { ExchangeProvider } from '../../utils/ExchangeProvider/ExchangeProvider';
 import Wallet from '../../utils/Wallet/Wallet';
 import SkyLight from 'react-skylight';
 import TradeForm from 'components/TradeForm';
@@ -28,6 +30,15 @@ export class Investments extends React.Component { // eslint-disable-line react/
     engine.fetchTradesForAccount(account, function(trades, error) {
                                   // console.log(all);
                                 });
+
+
+
+    let exchange = ExchangeProvider.coinMarketCapProvider();
+    exchange
+      .fetchHistoricalDataForToken(Token.ETH(), 
+        function(historicalData) {
+          console.log(historicalData);
+        });
   }
 
   render() {
